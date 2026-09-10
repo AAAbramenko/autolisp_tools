@@ -1,0 +1,6 @@
+*._ls
+*._dc
+/testfiles
+sandbox.lsp
+*.prj
+/tmp
