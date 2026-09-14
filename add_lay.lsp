@@ -400,12 +400,11 @@
                  (= (vla-get-IsDynamicBlock _frame-obj) :vlax-true)
             )
 
-            (list 
-              (_get_bounding_box_dynblock 
-                _frame
-                active-document
-              )
+            (_get_bounding_box_dynblock 
+              _frame-obj
+              active-document
             )
+
 
             (progn 
               (vla-GetBoundingBox 
