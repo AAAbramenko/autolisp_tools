@@ -29,9 +29,10 @@
 
   ;; Создание пар ключ-значение, где ключом является имя текстового стиля без пробелов и в верхнем регистре
   ;; для удобства обработки функцией getkword.
-  (vlax-for _text-style _text-styles 
+  (vlax-for _text-style _text-styles
     (setq _text-style-name        (vla-get-Name _text-style)
-          _text-style-key         (strcase (_string-subst "" " " _text-style-name))
+          ;_text-style-key         (strcase (_string-subst "" "." (_string-subst "" " " _text-style-name)))
+	  _text-style-key (strcase (_string-subst-many "" (list " " "_" ".") _text-style-name))
           _text-styles-keys-names (_add-to-list 
                                     _text-styles-keys-names
                                     (cons _text-style-key _text-style-name)
