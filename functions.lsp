@@ -30,6 +30,15 @@
   string
 )
 
+;;; Заменяет группу вхождений в строке на одно новое вхождение
+(defun _string-subst-many (new old-list string / _string)
+  (setq _string string)
+  (foreach item old-list
+    (setq _string (_string-subst new item _string))
+    )
+  _string
+  )
+
 ;;; Объединяет список строк с указанным разделителем в одну строку
 (defun _str-join (strings separator / _len _str _index)
   (setq	_len   (vl-list-length strings)
