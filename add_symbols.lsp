@@ -20,8 +20,7 @@
         _selected           (ssget "_I" +_selection-filter+)
   )
 
-  (initget 1 "Начало Конец")
-  (setq _string-pos      (getkword "Положение строки: [Начало/Конец]: ")
+  (setq _string-pos      (_getkword-initget "Положение строки" '("Начало" "Конец"))
         _appended-string (getstring T "Строка для дополнения: ")
         _entities        (if _selected 
                            _selected

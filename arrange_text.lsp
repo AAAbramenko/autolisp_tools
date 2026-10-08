@@ -7,8 +7,7 @@
   (setq _entities (ssget '((-4 . "<OR") (0 . "TEXT") (0 . "MTEXT") (-4 . "OR>"))))
 
   ;; Направление упорядочивания
-  (initget 1 "Вертикально Горизонтально")
-  (setq _direction_str   (getkword "Направление выравнивания? [Вертикально/Горизонтально]: ")
+  (setq _direction_str   (_getkword-initget "Направление упорядочивания" '("Вертикально" "Горизонтально"))
         _is_vertical_dir (= _direction_str "Вертикально")
   )
 

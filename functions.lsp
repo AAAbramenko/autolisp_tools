@@ -358,3 +358,9 @@
            )
   )
 )
+
+;;; ”прощает использование getkword, принимает на вход список строк и вопрос пользователю
+(defun _getkword-initget (title kwords / )
+  (initget 1 (_str-join kwords " "))
+  (getkword (strcat title "[" (_str-join kwords "/") "]: "))
+  )

@@ -20,8 +20,8 @@
                              )
         _selected           (ssget "_I" +_selection-filter+)
   )
-  (initget 1 "Начало Конец")
-  (setq _delete-pos (getkword "Место удаления [Начало/Конец]: "))
+
+  (setq _delete-pos  (_getkword-initget "Место удаления" '("Начало" "Конец")))
   (initget 6)
   (setq _symb-numb (getint "Количество символов для удаления: ")
         _entities  (if _selected 
