@@ -360,7 +360,25 @@
 )
 
 ;;; Упрощает использование getkword, принимает на вход список строк и вопрос пользователю
-(defun _getkword-initget (title kwords / )
+(defun _getkword-initget (title kwords /) 
   (initget 1 (_str-join kwords " "))
   (getkword (strcat title "[" (_str-join kwords "/") "]: "))
+)
+
+;;; Вызывает диалог с выпадающим списком для выбора элемента
+;;; Возвращает выбранное значение
+(defun _call-popup-list-dlg (title elements / _dcl-id _selected-element) 
+  (setq _dcl-id (load_dialog "popup_list_dlg.dcl"))
+  (new_dialog "popup_list_dlg" _dcl-id)
+  (set_tile "popup_label" title)
+  (start_list "elements_list")
+  (mapcar 'add_list elements)
+  (end_list)
+  (action_tile "accept" 
+               "(progn	(setq _selected-element (nth (atoi (get_tile \"elements_list\")) elements)) (done_dialog 1))"
   )
+  (action_tile "cancel" "(done_dialog 0)")
+  (start_dialog)
+  (unload_dialog _dcl-id)
+  _selected-element
+)

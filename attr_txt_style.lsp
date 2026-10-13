@@ -26,23 +26,13 @@
   )
 
   ;; Список доступных текстовых стилей
-  (vlax-for text-style _text-styles
+  (vlax-for text-style _text-styles 
     (setq _text-styles-names (_add-to-list _text-styles-names (vla-get-Name text-style)))
-    )
+  )
   (setq _text-styles-names (acad_strlsort _text-styles-names))
 
   ;; Диалог для выбора текстового стиля
-  (setq _dcl-id (load_dialog "attr_txt_style.dcl"))
-  (new_dialog "attr_txt_style_dlg" _dcl-id)
-  (start_list "txt_styles_list")
-  (mapcar 'add_list _text-styles-names)
-  (end_list)
-  (action_tile "accept" 
-               "(progn	(setq _selected-text-style (nth (atoi (get_tile \"txt_styles_list\")) _text-styles-names)) (done_dialog 1))"
-  )
-  (action_tile "cancel" "(done_dialog 0)")
-  (start_dialog)
-  (unload_dialog _dcl-id)
+  (setq _selected-text-style (_call-popup-list-dlg "Выберите текстовый стиль:" _text-styles-names))
 
   (if _selected-text-style 
     (progn 

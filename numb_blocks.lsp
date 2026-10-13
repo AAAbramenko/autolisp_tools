@@ -42,7 +42,7 @@
   )
 
   ;; Запрос атрибута для нумерации
-  (setq _attribute-name (_getkword-initget "Атрибут для нумерации" _attributes-tags-list))
+  (setq _attribute-name (_call-popup-list-dlg "Атрибут для нумерации" _attributes-tags-list))
 
   ;; Запрос параметров для нумерации
   (setq _prefix (getstring T "Префикс: ")
