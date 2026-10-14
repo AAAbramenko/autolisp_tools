@@ -31,27 +31,7 @@
     (setq *error* _old-error)
   )
 
-  ;; -----------------
-  ;; Обработка ошибок
-  ;; -----------------
-  (defun _error-handler (msg) 
-    ;; Сообщение об ошибке
-    (if 
-      (member msg 
-              '("console break" "Function cancelled" "Функция отменена" "quit / exit abort" "завершить / выйти прервать" 
-                "Функция прервана."
-               )
-      )
-      (princ "\nПрерывание команды")
-      (princ 
-        (strcat "\ERRNO # " (itoa (getvar "ERRNO")) ": " msg "\n")
-      )
-    )
-
-    ;; Восстановление изначальных настроек и состояния чертежа
-    (_restore-state)
-    (princ)
-  )
+  ;; Установка обработчика ошибок
   (setq *error* _error-handler)
 
   ;; -----------------

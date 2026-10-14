@@ -1,11 +1,25 @@
-(defun C:DS (/ _selected _symb-numb +_selection-filter+) 
+(defun C:DS (/ _selected _symb-numb +_selection-filter+ _pickfirst-sysvar _old-error) 
   (vl-load-com)
 
+  (setq _old-error *error*)
+
+  ;; Состояния системных переменных
   ;; Для выбора объектов перед выполнением команды
   (setq _pickfirst-sysvar (getvar "PICKFIRST"))
   (if (= _pickfirst-sysvar 0) 
     (setvar "PICKFIRST" 1)
   )
+
+  ;; -----------------
+  ;; Восстановление изначального состояния
+  ;; -----------------
+  (defun _restore-state () 
+    (setvar "PICKFIRST" _pickfirst-sysvar)
+    (setq *error* _old-error)
+  )
+
+  ;; Установка обработчика ошибок
+  (setq *error* _error-handler)
 
   ;; Получение выбранных объектов (многострочный текст, текст или блок)
   (setq +_selection-filter+ '((-4 . "<OR")
@@ -21,7 +35,7 @@
         _selected           (ssget "_I" +_selection-filter+)
   )
 
-  (setq _delete-pos  (_getkword-initget "Место удаления" '("Начало" "Конец")))
+  (setq _delete-pos (_getkword-initget "Место удаления" '("Начало" "Конец")))
   (initget 6)
   (setq _symb-numb (getint "Количество символов для удаления: ")
         _entities  (if _selected 
@@ -47,7 +61,8 @@
     )
   )
 
-  (setvar "PICKFIRST" _pickfirst-sysvar)
+  ;; Восстановление изначальных настроек и состояния чертежа
+  (_restore-state)
 
   (princ)
 )

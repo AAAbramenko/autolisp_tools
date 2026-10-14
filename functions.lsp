@@ -382,3 +382,25 @@
   (unload_dialog _dcl-id)
   _selected-element
 )
+
+;;; -----------------
+;;; Обработка ошибок
+;;; -----------------
+(defun _error-handler (msg) 
+  ;; Сообщение об ошибке
+  (if 
+    (member msg 
+            '("console break" "Function cancelled" "Функция отменена" "quit / exit abort" "завершить / выйти прервать" 
+              "Функция прервана."
+             )
+    )
+    (princ "\nПрерывание команды")
+    (princ 
+      (strcat "\ERRNO # " (itoa (getvar "ERRNO")) ": " msg "\n")
+    )
+  )
+
+  ;; Восстановление изначальных настроек и состояния чертежа
+  (_restore-state)
+  (princ)
+)

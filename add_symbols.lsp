@@ -1,10 +1,23 @@
-(defun C:AS (/ +_selection-filter+ _string-pos _appended-string _selected _entities _index _pickfirst-sysvar) 
+(defun C:AS (/ +_selection-filter+ _string-pos _appended-string _selected _entities _index _pickfirst-sysvar _old-error) 
+  (setq _old-error *error*)
 
+  ;; Состояния системных переменных
   ;; Для выбора объектов перед выполнением команды
   (setq _pickfirst-sysvar (getvar "PICKFIRST"))
   (if (= _pickfirst-sysvar 0) 
     (setvar "PICKFIRST" 1)
   )
+
+  ;; -----------------
+  ;; Восстановление изначального состояния
+  ;; -----------------
+  (defun _restore-state () 
+    (setvar "PICKFIRST" _pickfirst-sysvar)
+    (setq *error* _old-error)
+  )
+
+  ;; Установка обработчика ошибок
+  (setq *error* _error-handler)
 
   ;; Получение выбранных объектов (многострочный текст, текст или блок)
   (setq +_selection-filter+ '((-4 . "<OR")
@@ -43,7 +56,8 @@
     )
   )
 
-  (setvar "PICKFIRST" _pickfirst-sysvar)
+  ;; Восстановление изначальных настроек и состояния чертежа
+  (_restore-state)
 
   (princ)
 )
